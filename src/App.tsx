@@ -26,13 +26,13 @@ const App: React.FC = () => {
           "https://rickandmortyapi.com/api/character"
         );
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error("error");
         }
         const data = await response.json();
         setCharacters(data.results);
       } catch (error: any) {
         setError(error.message); // Guardar el mensaje de error en el estado
-        console.error("Fetch error:", error);
+        console.error(error);
       }
     };
 

@@ -24,7 +24,7 @@ const CardProp = styled.h2`
 // styled componentes a mi componente principal de Card
 // renderizado segun lo que tiene cards por props
 
-const Card = styled.div`
+const Card = styled.div<{ color?: string; statusColor?: string }>`
   display: flex;
   flex-direction: column;
   flex: 0 0 18%; //
@@ -52,12 +52,16 @@ const Card = styled.div`
     margin: 5px;
     font-size: 14px;
     letter-spacing: 1px;
+    color: ${(props) => props.statusColor || "#FFFFFF"};
   }
 `;
 
 const CharacterCard: React.FC<CharacterCardProps> = ({ character, color }) => {
+  //decido el color de la props status basado en el status del personaje
+
+  const statusColor = character.status === "unknown" ? "#FF0000" : "#FFFFFF";
   return (
-    <Card color={color}>
+    <Card color={color} statusColor={statusColor}>
       <img src={character.image} alt={character.name} />
       <h3>{character.name}</h3>
       <PropsContainer>
