@@ -1,7 +1,6 @@
-// Home.tsx
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import CharacterCard from "./CharacterdCard"; // Asegúrate de que el nombre sea correcto
+import CharacterCard from "./CharacterdCard";
 import { Character } from "../types";
 
 // Styled component para el contenedor principal
@@ -45,11 +44,21 @@ const PaginationButton = styled.button`
     opacity: 0.9; // Efecto hover
   }
 }`;
+const ErrorContainer = styled.div`
+  width: 100vw;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+  border-radius: 8px;
+  text-align: center;
+`;
 
 const Home: React.FC = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const totalPages = 4; // Fijo el total de páginas en 4
+  const totalPages = 4; // Fijo el total de paginas en 4
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -71,14 +80,14 @@ const Home: React.FC = () => {
     fetchCharacters(currentPage);
   }, [currentPage]);
 
-  // Función para ir a la siguiente página
+  // Funcion para ir a la siguiente página
   const goToNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage((prev) => prev + 1);
     }
   };
 
-  // Función para ir a la página anterior
+  // Funcion para ir a la página anterior
   const goToPreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage((prev) => prev - 1);
@@ -88,32 +97,38 @@ const Home: React.FC = () => {
   return (
     <>
       <AppContainer>
-        {error && <div>Error: {error}</div>}
-        {characters.map((character) => (
-          <CharacterCard
-            key={character.id}
-            character={character}
-            color={character.status === "Alive" ? "#a0e7a0" : "#e7a0a0"}
-          />
-        ))}
+        {error ? (
+          <ErrorContainer>Error: {error}</ErrorContainer>
+        ) : (
+          characters.map((character) => (
+            <CharacterCard
+              key={character.id}
+              character={character}
+              color={character.status === "Alive" ? "#a0e7a0" : "#e7a0a0"}
+            />
+          ))
+        )}
       </AppContainer>
-      <PaginationContainer>
-        <PaginationButton
-          onClick={goToPreviousPage}
-          disabled={currentPage === 1}
-        >
-          Prev
-        </PaginationButton>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <PaginationButton
-          onClick={goToNextPage}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </PaginationButton>
-      </PaginationContainer>
+
+      {!error && (
+        <PaginationContainer>
+          <PaginationButton
+            onClick={goToPreviousPage}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </PaginationButton>
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+          <PaginationButton
+            onClick={goToNextPage}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </PaginationButton>
+        </PaginationContainer>
+      )}
     </>
   );
 };
