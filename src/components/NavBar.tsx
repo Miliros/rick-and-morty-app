@@ -1,5 +1,3 @@
-// src/components/Navbar.tsx
-
 import React from "react";
 import styled from "styled-components";
 import logo from "../logo r&m.png";
