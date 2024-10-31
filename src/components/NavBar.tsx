@@ -5,11 +5,12 @@ import styled from "styled-components";
 import logo from "../logo r&m.png";
 
 const Logo = styled.img`
-  height: 40px;
+  height: 35px;
 `;
 
 const Nav = styled.nav`
   background-color: white;
+  padding: 15px;
 `;
 const NavBar: React.FC = () => {
   return (
